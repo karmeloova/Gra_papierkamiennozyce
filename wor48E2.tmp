@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://vddexuy0lciq"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_wgnld"]
+
+[node name="World" type="Node2D"]
+
+[node name="Player" type="Node2D" parent="."]
+script = ExtResource("1_wgnld")
+
+[node name="ChoosedFigure" type="Sprite2D" parent="Player"]
+
+[node name="ChooseFigure" type="OptionButton" parent="Player"]
+offset_left = 179.0
+offset_top = 278.0
+offset_right = 324.0
+offset_bottom = 298.0
+allow_reselect = true

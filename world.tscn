@@ -1,0 +1,97 @@
+[gd_scene load_steps=8 format=3 uid="uid://vddexuy0lciq"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_wgnld"]
+[ext_resource type="Script" path="res://Computer.gd" id="2_gw41a"]
+[ext_resource type="Texture2D" uid="uid://oe0mjdsxo0po" path="res://Images/Kamien.png" id="3_gvvnn"]
+[ext_resource type="Texture2D" uid="uid://rstc8vi05lvm" path="res://Images/Nozyce.png" id="4_j6ubk"]
+[ext_resource type="Texture2D" uid="uid://j6rsgu4ppaeh" path="res://Images/Papier.png" id="5_vsdha"]
+[ext_resource type="Script" path="res://Score.gd" id="6_vglev"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cnaag"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_gvvnn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_j6ubk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_vsdha")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="World" type="Node2D"]
+
+[node name="Player" type="Node2D" parent="."]
+position = Vector2(377, 394)
+script = ExtResource("1_wgnld")
+
+[node name="ChoosedFigure" type="Sprite2D" parent="Player"]
+scale = Vector2(0.6, 0.6)
+
+[node name="ChooseFigure" type="OptionButton" parent="Player"]
+offset_left = -70.0
+offset_top = -126.0
+offset_right = 75.0
+offset_bottom = -106.0
+allow_reselect = true
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerLabel" type="Label" parent="Player"]
+offset_left = -69.0
+offset_top = -176.0
+offset_right = 72.0
+offset_bottom = -153.0
+text = "Gracz"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Computer" type="Node2D" parent="."]
+position = Vector2(774, 384)
+script = ExtResource("2_gw41a")
+
+[node name="Figure" type="Sprite2D" parent="Computer"]
+scale = Vector2(0.6, 0.6)
+
+[node name="ComputerLabel" type="Label" parent="Computer"]
+offset_left = -83.0
+offset_top = -158.0
+offset_right = 78.0
+offset_bottom = -135.0
+text = "Komputer"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TimerWait" type="Timer" parent="Computer"]
+one_shot = true
+
+[node name="DrawAnimation" type="AnimatedSprite2D" parent="Computer"]
+position = Vector2(6, -2)
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_cnaag")
+frame_progress = 0.372673
+
+[node name="Score" type="Node2D" parent="."]
+script = ExtResource("6_vglev")
+
+[node name="PlayerScore" type="Label" parent="Score"]
+offset_left = 1045.0
+offset_top = 1.0
+offset_right = 1151.0
+offset_bottom = 24.0
+
+[node name="ComputerScore" type="Label" parent="Score"]
+offset_left = 1046.0
+offset_top = 46.0
+offset_right = 1149.0
+offset_bottom = 69.0
+
+[connection signal="choosed" from="Player" to="Computer" method="_on_player_choosed"]
+[connection signal="choosed" from="Player" to="Score" method="_on_player_choosed"]
+[connection signal="item_selected" from="Player/ChooseFigure" to="Player" method="_on_choose_figure_item_selected"]
+[connection signal="choosedFigure" from="Computer" to="Score" method="_on_computer_choosed_figure"]
+[connection signal="timeout" from="Computer/TimerWait" to="Computer" method="_on_timer_wait_timeout"]
